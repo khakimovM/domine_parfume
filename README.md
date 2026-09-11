@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Domine Parfumes
 
-## Getting Started
+Fargʻonadagi koʻchib yuruvchi atirlar doʻkoni uchun landing sahifa.
 
-First, run the development server:
+**Stack:** Next.js 16 (App Router) · React 19 · TypeScript · GSAP · qoʻlda
+yozilgan CSS.
+
+Sahifa qisqa — uchta boʻlim: Hero → Qadamlar → Aloqa.
+Maqsad bitta: tashrifchini Telegram adminiga yuborish.
+
+## Ishga tushirish
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Brauzerda: http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Produksiya
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+Vercel'ga joylash uchun repozitoriyni ulash kifoya.
 
-To learn more about Next.js, take a look at the following resources:
+## Nimani qayerdan oʻzgartirish kerak
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Nima | Fayl |
+|---|---|
+| Telefon raqamlari, Telegram, Instagram, shahar | `lib/site.ts` |
+| Qadamlar matni | `lib/content.ts` |
+| Rang, shrift, oʻlchamlar | `app/globals.css` → `:root` |
+| Animatsiyalar | `components/Motion.tsx` |
+| Ikonkalar | `public/icons/*.svg` |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Animatsiyalar
 
-## Deploy on Vercel
+Barcha harakat GSAP bilan, bitta faylda — `components/Motion.tsx`.
+Komponentlar faqat belgi qoʻyadi:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```tsx
+<p data-reveal>skrollda ochiladi</p>
+<h1 data-split>harflarga boʻlinib koʻtariladi</h1>
+<a data-magnet>kursorga tortiladi</a>
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Rasmlar
+
+Hero fotosi va ulashuv muqovasi Gemini orqali generatsiya qilingan.
+Qayta chizish uchun `.env.local` ga kalit qoʻying:
+
+```
+GEMINI_API_KEY=...
+```
+
+keyin:
+
+```bash
+npm run images
+```
+
+Xom PNG'lar `assets/generated/` ga tushadi (git'ga kirmaydi), siqilgan
+variantlari `public/images/` ga.
+
+## Domen
+
+Telegram va Instagram'da havola ulashilganda muqova rasmi koʻrinishi uchun
+`.env.local` ga qoʻshing:
+
+```
+NEXT_PUBLIC_SITE_URL=https://sizning-domeningiz.uz
+```
+
+## Nimalar hisobga olingan
+
+- Telefon, planshet va kompyuterga moslashgan
+- Klaviatura bilan yurish va koʻrinadigan fokus
+- `prefers-reduced-motion` — animatsiyalar oʻchiriladi
+- JavaScript oʻchiq boʻlsa ham sahifa toʻliq oʻqiladi
+- Ochilish sahnasi sessiyada bir marta va bosish/skroll bilan oʻtkaziladi

@@ -1,40 +1,82 @@
+/* ============================================================
+   Domine Parfumes — design system
+   Palitra atirning oʻz materialidan: amber shisha, oltin qopqoq,
+   oud qatroni. Harakatni GSAP boshqaradi (components/Motion.tsx).
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ── Rang ── */
+  --noir: #0e0a07;
+  --noir-2: #140e09;
+  --resin: #1a1209;
+
+  --amber: #c6862f;
+  --amber-lite: #f0b458;
+  --champagne: #e7d7b4;
+  --ivory: #f6f1e7;
+  --olive-lite: #9aa07f;
+
+  --on-gold: #1c1204;
+  --grad-gold: linear-gradient(100deg, var(--amber-lite), var(--amber));
+  --panel: linear-gradient(168deg, var(--resin), var(--noir-2));
+
+  --muted: rgba(246, 241, 231, 0.6);
+  --muted-2: rgba(246, 241, 231, 0.4);
+  --line: rgba(231, 215, 180, 0.14);
+  --line-2: rgba(231, 215, 180, 0.28);
+
+  /* ── Shrift ── */
+  --display: var(--font-display), "Didot", "Bodoni MT", Georgia, serif;
+  --body: var(--font-body), ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --mono: var(--font-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* ── Oʻlcham ── */
+  --gut: clamp(1.25rem, 5vw, 5rem);
+  --maxw: 1280px;
+  --sect-y: clamp(5rem, 10vw, 9rem);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================================
+   Base
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  background: var(--noir);
+  color: var(--ivory);
+  font-family: var(--body);
+  font-weight: 300;
+  font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.0625rem);
+  line-height: 1.65;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ochilish sahnasi davomida sahifa qimirlamaydi */
+html[data-stage] body {
+  overflow: hidden;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
 a {
@@ -42,8 +84,853 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+p {
+  margin: 0;
+}
+
+::selection {
+  background: var(--amber);
+  color: var(--noir);
+}
+
+:focus-visible {
+  outline: 2px solid var(--amber-lite);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* `main` ga z-index BERILMAYDI — aks holda u stacking context yaratib,
+   orqa fondagi DOMINE'ni hero fotosi ostida qoldiradi.
+   Qatlamlar: foto (-2) → soya (-1) → DOMINE (0) → matn (auto). */
+main {
+  position: relative;
+}
+main:focus {
+  outline: none;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 300;
+  padding: 0.7rem 1.1rem;
+  background: var(--champagne);
+  color: var(--noir);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 999px;
+  transform: translateY(-160%);
+  transition: transform 0.3s var(--ease);
+}
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* ============================================================
+   Tipografiya
+   ============================================================ */
+
+.mono {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.95rem, 1.2rem + 3.2vw, 3.9rem);
+  line-height: 1.06;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+.h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 1rem + 0.6vw, 1.4rem);
+  line-height: 1.22;
+}
+
+em {
+  font-style: italic;
+  color: var(--champagne);
+}
+
+/* ============================================================
+   Tugma
+   ============================================================ */
+
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--ivory);
+  --btn-bd: var(--line-2);
+  /* `isolation` + `z-index:-1` toʻldiruvchi qatlamni matn ORTIGA
+     qoʻyadi. Shu sabab oʻralmagan matn ham hoverda yoʻqolmaydi —
+     `.btn > *` ga z-index berish yetarli emas edi. */
+  isolation: isolate;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.7rem;
+  min-height: 48px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: 1px solid var(--btn-bd);
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: color 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--grad-gold);
+  transform: translate3d(0, 101%, 0);
+  transition: transform 0.5s var(--ease);
+}
+.btn:hover::after,
+.btn:focus-visible::after {
+  transform: translate3d(0, 0, 0);
+}
+.btn:hover,
+.btn:focus-visible {
+  color: var(--on-gold);
+  border-color: transparent;
+}
+
+.btn--gold {
+  --btn-bg: var(--grad-gold);
+  --btn-fg: var(--on-gold);
+  --btn-bd: transparent;
+}
+.btn--gold::after {
+  background: var(--ivory);
+}
+
+.btn--sm {
+  padding: 0.6rem 1.15rem;
+  min-height: 40px;
+  font-size: 0.73rem;
+}
+.btn--lg {
+  padding: 1.15rem 2.4rem;
+  min-height: 56px;
+  font-size: 0.92rem;
+}
+
+.btn .ic {
+  width: 1.05em;
+  height: 1.05em;
+  fill: currentColor;
+  flex: none;
+}
+
+/* ============================================================
+   Layout
+   ============================================================ */
+
+.section {
+  position: relative;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: var(--sect-y) var(--gut);
+}
+
+/* `ch` ishlatilmaydi: u ota elementning matn shriftidan hisoblanadi va
+   sarlavhani keragidan uch barobar tor qilib qoʻyadi. */
+.section__head {
+  max-width: 44rem;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+.section__head--center {
+  max-width: 38rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* ============================================================
+   GSAP boshlangʻich holatlari
+   Yashirish faqat JS bor boʻlganda — aks holda ochadigan hech kim yoʻq.
+   ============================================================ */
+
+html[data-js] [data-reveal],
+html[data-js] [data-hero] {
+  opacity: 0;
+}
+
+/* ============================================================
+   Parda + orqa fondagi DOMINE
+   ============================================================ */
+
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--noir);
+  display: none;
+}
+html[data-stage] .curtain {
+  display: block;
+}
+.curtain__rule {
+  position: absolute;
+  left: 50%;
+  bottom: 18%;
+  width: min(38vw, 320px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber), transparent);
+  transform: translateX(-50%) scaleX(0);
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+html[data-stage] .backdrop {
+  z-index: 101;
+}
+
+.backdrop__haze {
+  position: absolute;
+  inset: 0;
+  background: url("/images/hero-atmosphere.webp") center / cover no-repeat;
+  opacity: 0.45;
+}
+
+.wordmark {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 34%;
+  transform: translateY(-50%);
+}
+.wordmark__word {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 19vw;
+  line-height: 0.86;
+  letter-spacing: 0.05em;
+  padding-left: 0.05em;
+  white-space: nowrap;
+}
+.wordmark__inner {
+  /* Odatiy holat — orqa fon. Sahna paytida GSAP buni kichraytiradi.
+     Foto ustida turgani uchun 0.11 dan sal kuchliroq kerak. */
+  opacity: 0.16;
+}
+
+.wm-mask {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+}
+/* Tekis rang — gradient matn harflar ichida notekislik hosil qilardi
+   va foto ustida "iflos" koʻrinardi. Oltin materialni fotoning oʻzi beradi. */
+.wm-l {
+  display: block;
+  color: var(--champagne);
+}
+
+.wordmark__sub {
+  margin-top: 1.4em;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 1.4vw;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--amber-lite);
+  opacity: 0;
+}
+html[data-stage] .wordmark__sub {
+  opacity: 0.85;
+}
+
+/* ============================================================
+   Grain
+   ============================================================ */
+
+.grain {
+  position: fixed;
+  inset: -6%;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 7s steps(6) infinite;
+}
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 4%); }
+  40% { transform: translate(4%, -2%); }
+  60% { transform: translate(-2%, -4%); }
+  80% { transform: translate(3%, 3%); }
+}
+
+/* ============================================================
+   Nav
+   ============================================================ */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding: 1.1rem var(--gut);
+  border-bottom: 1px solid transparent;
+  /* Chekinishning YAGONA egasi — shu oʻzgaruvchi. GSAP bu yerga
+     tegmaydi: ikki tomon bitta `transform` ustida urishib qolardi. */
+  transform: translate3d(0, var(--nav-y, 0%), 0);
+  transition: transform 0.6s var(--ease), background-color 0.4s var(--ease-soft),
+    border-color 0.4s var(--ease-soft);
+}
+/* sahna davomida yuqorida yashirin turadi, tugashi bilan sirpanib chiqadi */
+html[data-stage] .nav {
+  --nav-y: -120%;
+  transition: none;
+}
+.nav.is-stuck {
+  background: color-mix(in srgb, var(--noir) 78%, transparent);
+  backdrop-filter: blur(14px) saturate(1.2);
+  border-bottom-color: var(--line);
+}
+.nav.is-hidden {
+  --nav-y: -120%;
+}
+@media (max-width: 860px) {
+  .nav.is-stuck {
+    background: color-mix(in srgb, var(--noir) 95%, transparent);
+    backdrop-filter: none;
+  }
+}
+
+.nav__logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-right: auto;
+}
+.nav__logo-word {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  letter-spacing: 0.24em;
+}
+.nav__logo-sub {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber-lite);
+}
+
+.nav__links {
+  display: flex;
+  gap: clamp(1rem, 2.2vw, 2.1rem);
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.nav__links a {
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.3s var(--ease-soft);
+}
+.nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--amber-lite);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.4s var(--ease);
+}
+.nav__links a:hover {
+  color: var(--ivory);
+}
+.nav__links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
+}
+
+.burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  position: relative;
+  flex: none;
+}
+.burger span {
+  position: absolute;
+  left: 11px;
+  width: 22px;
+  height: 1.5px;
+  background: var(--ivory);
+  transition: transform 0.4s var(--ease);
+}
+.burger span:nth-child(1) { top: 19px; }
+.burger span:nth-child(2) { top: 25px; }
+.burger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(3px) rotate(45deg);
+}
+.burger[aria-expanded="true"] span:nth-child(2) {
+  transform: translateY(-3px) rotate(-45deg);
+}
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 79;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 6rem var(--gut) 3rem;
+  background: var(--noir-2);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 0.7s var(--ease);
+}
+.menu.is-open {
+  clip-path: inset(0 0 0 0);
+}
+.menu__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.menu__links a {
+  display: block;
+  overflow: hidden;
+  font-family: var(--display);
+  font-size: clamp(2rem, 10vw, 3rem);
+  line-height: 1.25;
+}
+.menu__links a > span {
+  display: block;
+  transform: translate3d(0, 105%, 0);
+  transition: transform 0.75s var(--ease);
+  transition-delay: calc(var(--i) * 70ms);
+}
+.menu.is-open .menu__links a > span {
+  transform: none;
+}
+.menu__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--line);
+  color: var(--champagne);
+}
+@media (min-width: 861px) {
+  .menu {
+    display: none;
+  }
+}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 8rem var(--gut) clamp(2.5rem, 6vw, 4.5rem);
+  max-width: var(--maxw);
+  margin-inline: auto;
+  /* `overflow: clip` YOʻQ — u fotoni hero'ning 1280px qutisiga qirqib,
+     keng ekranda chetlarda boʻsh joy qoldirardi. */
+}
+
+/* Foto va soya butun ekran kengligida. `transform` ishlatilmaydi:
+   GSAP ochilishda shu elementga `scale` yozadi va markazlash transformini
+   bosib qoʻyardi. */
+.hero__photo,
+.hero::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 50vw);
+  width: 100vw;
+}
+.hero__photo {
+  z-index: -2;
+}
+.hero__photo img {
+  object-fit: cover;
+  object-position: 64% center;
+  /* Faqat tepa-pastki chetlar eriydi — yon tomonlar ekran chekkasi */
+  mask-image: linear-gradient(180deg, transparent, #000 22%, #000 64%, transparent);
+}
+/* Matn ustidagi quyuqlashtiruvchi qatlam */
+.hero::before {
+  content: "";
+  z-index: -1;
+  background: linear-gradient(
+    92deg,
+    var(--noir) 20%,
+    color-mix(in srgb, var(--noir) 72%, transparent) 50%,
+    color-mix(in srgb, var(--noir) 14%, transparent) 84%
+  );
+}
+
+.hero__copy {
+  position: relative;
+  max-width: 38rem;
+}
+
+.hero__title {
+  margin: 0 0 1.4rem;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 1.3rem + 4.6vw, 5.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+}
+
+.hero__lead {
+  margin: 0 0 2.2rem;
+  max-width: 32rem;
+  color: var(--muted);
+  font-size: clamp(1rem, 0.94rem + 0.35vw, 1.15rem);
+  line-height: 1.65;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.hero__cue {
+  position: absolute;
+  right: var(--gut);
+  bottom: clamp(2.5rem, 6vw, 4.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--muted-2);
+  transition: color 0.3s var(--ease-soft);
+}
+.hero__cue:hover {
+  color: var(--champagne);
+}
+.hero__cue span:last-child {
+  writing-mode: vertical-rl;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+.hero__cue-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(180deg, var(--line-2), transparent);
+  position: relative;
+  overflow: hidden;
+}
+.hero__cue-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--amber-lite);
+  animation: trickle 2.6s var(--ease-soft) infinite;
+}
+@keyframes trickle {
+  0% { transform: translateY(-100%); }
+  60%, 100% { transform: translateY(100%); }
+}
+
+/* ============================================================
+   Qadamlar — vaqt chizigʻi
+   ============================================================ */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+.step {
+  position: relative;
+  padding-top: 2.6rem;
+  border-top: 1px solid var(--line-2);
+}
+/* raqam chiziq ustida turadi */
+.step__n {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-50%);
+  padding-right: 0.9rem;
+  background: var(--noir);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  color: var(--amber-lite);
+}
+.step__icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 1.2rem;
+  color: var(--muted);
+  transition: color 0.4s var(--ease-soft);
+}
+.step__icon svg {
+  width: 100%;
+  height: 100%;
+}
+.step:hover .step__icon {
+  color: var(--amber-lite);
+}
+.step p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   Aloqa
+   ============================================================ */
+
+.cta {
+  display: flex;
+  justify-content: center;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.ccards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: 0.85rem;
+  max-width: 62rem;
+  margin-inline: auto;
+}
+.ccard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.5rem 1.4rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.45s var(--ease), border-color 0.4s var(--ease-soft);
+}
+.ccard::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: var(--grad-gold);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.55s var(--ease);
+}
+.ccard:hover {
+  transform: translateY(-4px);
+  border-color: var(--line-2);
+}
+.ccard:hover::after {
+  transform: scaleX(1);
+}
+.ccard__ic {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 0.9rem;
+  fill: var(--amber-lite);
+}
+.ccard__k {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.ccard__v {
+  font-size: 1rem;
+  color: var(--ivory);
+}
+.ccard__go {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.4rem;
+  color: var(--muted-2);
+  transition: transform 0.4s var(--ease), color 0.35s var(--ease-soft);
+}
+.ccard:hover .ccard__go {
+  transform: translate(3px, -3px);
+  color: var(--amber-lite);
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.foot {
+  position: relative;
+  z-index: 1;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: clamp(2.5rem, 5vw, 3.5rem) var(--gut);
+  border-top: 1px solid var(--line);
+}
+.foot__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.foot__mark {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  letter-spacing: 0.22em;
+}
+.foot__mark em {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-style: normal;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber-lite);
+}
+.foot__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.foot__links a {
+  transition: color 0.3s var(--ease-soft);
+}
+.foot__links a:hover {
+  color: var(--amber-lite);
+}
+.foot__note {
+  font-size: 0.78rem;
+  color: var(--muted-2);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 860px) {
+  .nav__links,
+  .nav__cta {
+    display: none;
+  }
+  .burger {
+    display: block;
+  }
+  .hero__cue {
+    display: none;
+  }
+  .wordmark {
+    top: 30%;
+  }
+  .wordmark__word {
+    font-size: 25vw;
+  }
+  .wordmark__sub {
+    font-size: 2.4vw;
+  }
+  .hero__photo img {
+    object-position: 78% center;
+  }
+  /* Tor ekranda matn pastda turadi — soya ham chapdan emas, pastdan */
+  .hero::before {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--noir) 55%, transparent) 0%,
+      color-mix(in srgb, var(--noir) 25%, transparent) 34%,
+      color-mix(in srgb, var(--noir) 88%, transparent) 66%,
+      var(--noir) 92%
+    );
+  }
+}
+
+@media (max-width: 560px) {
+  .hero__actions .btn {
+    flex: 1 1 100%;
+  }
+}
+
+/* ============================================================
+   Harakatni kamaytirish
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
   html {
-    color-scheme: dark;
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  /* Bu uchtasining oxirgi kadri boshlangʻich holatdan farq qiladi —
+     davomiylikni nolga tushirish ularni sakratib yuborardi. */
+  .grain,
+  .hero__cue-line::after {
+    animation: none !important;
+  }
+  html[data-js] [data-reveal],
+  html[data-js] [data-hero] {
+    opacity: 1 !important;
   }
 }
