@@ -93,9 +93,12 @@ Yashirish har doim qoʻshimcha shart bilan qoʻshiladi:
 3. **Qatlam tartibi.** `main` ga `z-index` bermang: u stacking context
    yaratib, DOMINE'ni hero fotosi ostida qoldiradi.
    Tartib: foto (−2) → soya (−1) → DOMINE (0) → matn (auto).
-4. **Tugma toʻldirmasi `z-index: -1` va `isolation: isolate` bilan.**
-   `.btn > *` ga z-index berish yetarli emas edi: oʻralmagan matn
-   toʻldiruvchi qatlam ostida qolib, hoverda koʻrinmay qolardi.
+4. **Tugma hoverida toʻldiruvchi qatlam SURILMAYDI.** Avval `::after`
+   pastdan yuqoriga sirpanib tugmani toʻldirardi — mijoz uni "bachkana"
+   deb baholadi, ustiga matn rangi ham teskari boʻlib ketardi. Hozir:
+   rang + chegara + 1px koʻtarilish, oltin tugmada esa faqat yorugʻlik
+   `background-position` boʻylab siljiydi. Matn rangi hech qachon
+   oʻzgarmaydi — demak oʻqilmay qolish xavfi ham yoʻq.
 5. **`prefers-reduced-motion`** — `Motion.tsx` sahnani butunlay
    oʻtkazib yuboradi. `globals.css` oxiridagi blokda `.grain` va
    `.hero__cue-line::after` uchun `animation: none` alohida yozilgan:
@@ -141,9 +144,40 @@ sh "$IMPECCABLE/scripts/impeccable" detect --json app components
 `$IMPECCABLE` — `~/.claude/plugins/cache/impeccable/impeccable/<versiya>/skills/impeccable`.
 Boʻsh massiv (`[]`) qaytsa — toza.
 
+## SEO
+
+Domen: **domine.uz** (Vercel). Barcha SEO matni `lib/seo.ts` da.
+
+| Fayl | Nima beradi |
+|---|---|
+| `lib/seo.ts` | sarlavha, tavsif, kalit soʻzlar, `Store` struktura maʼlumoti |
+| `app/layout.tsx` | metadata, canonical, OG/Twitter, JSON-LD |
+| `app/sitemap.ts` | `/sitemap.xml` |
+| `app/robots.ts` | `/robots.txt` |
+
+Qoidalar:
+
+- **Sarlavha ≤ 60 belgi, tavsif ≤ 160 belgi.** Uzunrogʻini Google kesadi.
+  Oʻzgartirgandan keyin uzunlikni tekshiring.
+- Kalit soʻzlar sahifa **matniga tabiiy singdiriladi**, roʻyxatga tiqilmaydi.
+  `keywords` meta tegini Google umuman oʻqimaydi — u faqat Yandex uchun.
+- Apostrof ikki xil yoziladi: `Fargʻona` va `Fargona`. Kalit soʻzlarda
+  **ikkalasi ham** boʻlishi kerak — odamlar ikki xil yozadi.
+- Doʻkon koʻchma, koʻcha manzili yoʻq. Struktura maʼlumotida shuning uchun
+  faqat shahar va `areaServed` bor — koʻcha manzilini **oʻylab topmang**.
+- Hero surati `alt` siz qolmasin: u sahifadagi yagona mahsulot rasmi.
+
+### Hali qilinmagan (kod bilan hal boʻlmaydi)
+
+1. **Google Business Profile** — mahalliy qidiruvda eng katta taʼsir.
+2. **Google Search Console + Yandex Webmaster** — tasdiqlash kodlari
+   `layout.tsx` dagi `verification` bloki uchun.
+3. Instagram va Telegram profillariga `domine.uz` havolasini qoʻyish.
+4. Sahifada ~170 soʻz bor — bu kam. Kontent qoʻshilsa reyting oshadi.
+
 ## Tekshirilmagan maʼlumot
 
-- Instagram sahifa nomi Telegram bilan bir xil deb olingan (`lib/site.ts`).
 - Narxlar yoʻq — barcha CTA Telegramga olib boradi.
-- Domen maʼlum boʻlgach `.env.local` ga `NEXT_PUBLIC_SITE_URL` qoʻying,
-  aks holda ulashuvda muqova rasm chiqmaydi.
+- Instagram bio "Premium erkaklar atirlari" deydi, sahifa esa jinsni
+  ajratmaydi. Agar doʻkon faqat erkaklar atiriga ixtisoslashgan boʻlsa,
+  matnlar shunga moslanishi kerak.

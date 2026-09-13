@@ -7,9 +7,11 @@ export default function Hero() {
     <section className="hero" id="top">
       {/* Mahsulot fotosi — chizma emas, shuning uchun ishonarli */}
       <div className="hero__photo">
+        {/* Sahifadagi yagona mahsulot surati — rasm qidiruvida chiqishi
+            uchun alt boʻsh qoldirilmaydi. */}
         <Image
           src="/images/hero-still.webp"
-          alt=""
+          alt={`Atir flakonlari — ${SITE.brandFull}, ${SITE.city}`}
           fill
           priority
           sizes="100vw"

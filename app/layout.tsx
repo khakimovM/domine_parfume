@@ -3,6 +3,7 @@ import { Bodoni_Moda, JetBrains_Mono, Manrope } from "next/font/google";
 import BrandStage from "@/components/BrandStage";
 import Motion from "@/components/Motion";
 import Nav from "@/components/Nav";
+import { DESCRIPTION, KEYWORDS, OG_DESCRIPTION, TITLE, storeJsonLd } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
@@ -26,49 +27,57 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
-/**
- * Telegram va Instagram'da havola ulashilganda toʻgʻri rasm chiqishi uchun
- * absolyut manzil kerak. Domen maʼlum boʻlgach NEXT_PUBLIC_SITE_URL ni
- * `.env.local` ga yozing; Vercel'da avtomatik topiladi.
- */
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : undefined);
-
 const ogImage = {
   url: "/images/og-cover.jpg",
   width: 1200,
   height: 630,
-  alt: `${SITE.brandFull} — ${SITE.city}dagi atirlar doʻkoni`,
+  alt: `${SITE.brandFull} — ${SITE.city}dagi atir doʻkoni`,
 };
 
 export const metadata: Metadata = {
-  ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
-  title: `${SITE.brandFull} — ${SITE.tagline.toLowerCase()} | ${SITE.city}`,
-  description: `${SITE.brandFull} — ${SITE.city}dagi koʻchib yuruvchi atirlar doʻkoni. Original va lux analog atirlar. ${SITE.city} shahri boʻylab tekin yetkazib berish, boshqa shaharlarga pochta orqali.`,
-  keywords: [
-    "atir",
-    "parfum",
-    "Fargʻona atir",
-    "original atir",
-    "lux analog atir",
-    "Domine Parfumes",
-  ],
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: TITLE,
+    template: `%s | ${SITE.brandFull}`,
+  },
+  description: DESCRIPTION,
+  keywords: KEYWORDS,
+  applicationName: SITE.brandFull,
+  authors: [{ name: SITE.brandFull, url: SITE.url }],
+  creator: SITE.brandFull,
+  publisher: SITE.brandFull,
+  alternates: {
+    canonical: "/",
+  },
+  category: "shopping",
   openGraph: {
-    title: `${SITE.brandFull} — ${SITE.tagline.toLowerCase()}`,
-    description: `Original va lux analog atirlar. ${SITE.city} boʻylab tekin yetkazib berish, boshqa shaharlarga pochta orqali.`,
-    locale: "uz_UZ",
     type: "website",
+    url: SITE.url,
+    siteName: SITE.brandFull,
+    title: TITLE,
+    description: OG_DESCRIPTION,
+    locale: "uz_UZ",
     images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE.brandFull} — ${SITE.tagline.toLowerCase()}`,
-    description: `Original va lux analog atirlar. ${SITE.city} boʻylab tekin yetkazib berish.`,
+    title: TITLE,
+    description: OG_DESCRIPTION,
     images: [ogImage.url],
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  // Google Search Console va Yandex Webmaster tasdiqlash kodlari shu yerga:
+  // verification: { google: "...", yandex: "..." },
 };
 
 export const viewport: Viewport = {
@@ -98,6 +107,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
+        {/* Qidiruv tizimlari uchun: doʻkon nomi, telefonlar, xizmat hududi */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(storeJsonLd()) }}
+        />
       </head>
       <body>
         <a className="skip-link" href="#top">

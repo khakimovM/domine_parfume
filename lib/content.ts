@@ -18,8 +18,8 @@ export const STEPS: Step[] = [
   {
     n: "01",
     icon: "step-choose",
-    title: "Hidni ayting",
-    text: "Qidirayotgan atiringiz nomini yozing yoki qanday hid yoqishini ayting — biz tanlab beramiz.",
+    title: "Atirni ayting",
+    text: "Qidirayotgan atiringiz nomini yozing yoki qanday atir yoqishini ayting — biz tanlab beramiz.",
   },
   {
     n: "02",

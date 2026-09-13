@@ -65,14 +65,21 @@ npm run images
 Xom PNG'lar `assets/generated/` ga tushadi (git'ga kirmaydi), siqilgan
 variantlari `public/images/` ga.
 
-## Domen
+## Domen va SEO
 
-Telegram va Instagram'da havola ulashilganda muqova rasmi koʻrinishi uchun
-`.env.local` ga qoʻshing:
+Sayt **https://domine.uz** manzilida (Vercel).
+
+Boshqa domenga koʻchsa, Vercel'dagi Environment Variables'ga qoʻshing:
 
 ```
-NEXT_PUBLIC_SITE_URL=https://sizning-domeningiz.uz
+NEXT_PUBLIC_SITE_URL=https://yangi-domen.uz
 ```
+
+Bu bitta oʻzgaruvchi canonical, OG rasm, `sitemap.xml` va `robots.txt` ni
+birdaniga yangilaydi.
+
+SEO matnlari va kalit soʻzlar: `lib/seo.ts`.
+Tekshirish: `/robots.txt` va `/sitemap.xml` ochib koʻring.
 
 ## Nimalar hisobga olingan
 

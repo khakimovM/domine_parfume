@@ -4,21 +4,29 @@
  */
 
 export const SITE = {
-  brand: "Domine",
-  brandFull: "Domine Parfumes",
+  // Logotipdagi yozilishi — urgʻu belgisi bilan.
+  brand: "Dominé",
+  brandFull: "Dominé Parfumes",
+  /** Urgʻusiz shakl: odamlar shunday yozib qidiradi va domen ham shunday. */
+  brandPlain: "Domine Parfumes",
   city: "Fargʻona",
+  /** Kalit soʻzlarda apostrofsiz shakl ham kerak. */
+  cityPlain: "Fargona",
   tagline: "Koʻchib yuruvchi atirlar doʻkoni",
+
+  /** Kanonik manzil. Vercel'da NEXT_PUBLIC_SITE_URL bilan almashtiriladi. */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://domine.uz",
 
   telegram: {
     handle: "@domine_parfumes",
     url: "https://t.me/domine_parfumes",
   },
 
-  // Instagram sahifa nomi Telegram bilan bir xil deb olindi.
-  // Boshqacha boʻlsa, shu ikki qatorni oʻzgartiring.
+  // Diqqat: Instagram va Telegram nomlari HAR XIL —
+  // Instagram nuqta bilan, Telegram pastki chiziq bilan.
   instagram: {
-    handle: "@domine_parfumes",
-    url: "https://instagram.com/domine_parfumes",
+    handle: "@domine.parfumes",
+    url: "https://instagram.com/domine.parfumes",
   },
 
   admins: [

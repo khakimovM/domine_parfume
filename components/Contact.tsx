@@ -30,7 +30,7 @@ export default function Contact() {
     <section className="section section--contact" id="aloqa">
       <div className="section__head section__head--center">
         <h2 className="h2" data-reveal>
-          Hid nomini yozing —<br />
+          Atir nomini yozing —<br />
           <em>narxini darhol aytamiz.</em>
         </h2>
       </div>

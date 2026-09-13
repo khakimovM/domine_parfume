@@ -23,8 +23,15 @@ export default function Footer() {
         </nav>
       </div>
 
+      {/* Xizmat hududi — haridor uchun ham, mahalliy qidiruv uchun ham kerak */}
+      <p className="foot__area">
+        {SITE.city} shahri boʻylab tekin yetkazib berish. Toshkent, Andijon,
+        Namangan, Qoʻqon, Margʻilon va Oʻzbekistonning boshqa shaharlariga
+        pochta orqali joʻnatamiz.
+      </p>
+
       <p className="foot__note">
-        {SITE.city} shahri · {SITE.tagline.toLowerCase()} ·{" "}
+        {SITE.brandFull} · {SITE.tagline.toLowerCase()} ·{" "}
         <span className="mono">{new Date().getFullYear()}</span>
       </p>
     </footer>

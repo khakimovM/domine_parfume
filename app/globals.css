@@ -180,22 +180,19 @@ em {
    Tugma
    ============================================================ */
 
+/* Hoverda toʻldiruvchi qatlam SURILMAYDI. Oʻsha "wipe" effekti template
+   klishesi edi va matn rangini ostin-ustun qilardi. Oʻrniga: rang, chegara
+   va 1px koʻtarilish — bosish mumkinligini bildiradi, eʼtiborni oʻgʻirlamaydi. */
 .btn {
-  --btn-bg: transparent;
-  --btn-fg: var(--ivory);
+  --btn-fg: var(--champagne);
   --btn-bd: var(--line-2);
-  /* `isolation` + `z-index:-1` toʻldiruvchi qatlamni matn ORTIGA
-     qoʻyadi. Shu sabab oʻralmagan matn ham hoverda yoʻqolmaydi —
-     `.btn > *` ga z-index berish yetarli emas edi. */
-  isolation: isolate;
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
   padding: 0.95rem 1.7rem;
   min-height: 48px;
-  background: var(--btn-bg);
+  background-color: transparent;
   color: var(--btn-fg);
   border: 1px solid var(--btn-bd);
   border-radius: 999px;
@@ -204,35 +201,44 @@ em {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   white-space: nowrap;
-  overflow: hidden;
-  transition: color 0.35s var(--ease), border-color 0.35s var(--ease);
-}
-.btn::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: var(--grad-gold);
-  transform: translate3d(0, 101%, 0);
-  transition: transform 0.5s var(--ease);
-}
-.btn:hover::after,
-.btn:focus-visible::after {
-  transform: translate3d(0, 0, 0);
+  transition: color 0.25s var(--ease-soft), border-color 0.25s var(--ease-soft),
+    background-color 0.25s var(--ease-soft), transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
 .btn:hover,
 .btn:focus-visible {
-  color: var(--on-gold);
-  border-color: transparent;
+  color: var(--ivory);
+  border-color: color-mix(in srgb, var(--champagne) 52%, transparent);
+  background-color: color-mix(in srgb, var(--champagne) 8%, transparent);
+  transform: translateY(-1px);
+}
+.btn:active {
+  transform: translateY(0);
 }
 
+/* Oltin tugma rangini umuman oʻzgartirmaydi — faqat yorugʻlik oltin
+   yuzasi boʻylab siljiydi, xuddi sayqallangan qopqoqdagidek. */
 .btn--gold {
-  --btn-bg: var(--grad-gold);
   --btn-fg: var(--on-gold);
   --btn-bd: transparent;
+  background-image: linear-gradient(
+    100deg,
+    var(--amber) 0%,
+    var(--amber-lite) 38%,
+    var(--amber) 76%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 0;
+  transition: background-position 0.7s var(--ease), transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
-.btn--gold::after {
-  background: var(--ivory);
+.btn--gold:hover,
+.btn--gold:focus-visible {
+  color: var(--on-gold);
+  border-color: transparent;
+  background-position: 100% 0;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px -12px color-mix(in srgb, var(--amber) 70%, transparent);
 }
 
 .btn--sm {
@@ -251,6 +257,10 @@ em {
   height: 1.05em;
   fill: currentColor;
   flex: none;
+  transition: transform 0.3s var(--ease);
+}
+.btn:hover .ic {
+  transform: translateX(2px);
 }
 
 /* ============================================================
@@ -333,7 +343,10 @@ html[data-stage] .backdrop {
   left: 0;
   right: 0;
   top: 34%;
-  transform: translateY(-50%);
+  /* Chapga siljish: markazda turganda oxirgi harf (É) aynan flakon
+     qopqoqlari ustiga tushib yoʻqolardi. Matn chapda, foto oʻngda —
+     siljish kompozitsiyani ham muvozanatlaydi. */
+  transform: translate(-4%, -50%);
 }
 .wordmark__word {
   display: flex;
@@ -357,6 +370,11 @@ html[data-stage] .backdrop {
   display: inline-block;
   overflow: hidden;
   padding-bottom: 0.12em;
+  /* É ning urgʻu belgisi cap-height'dan tepada turadi, `line-height: 0.86`
+     esa juda tor — maska uni qirqib tashlardi. Qutini tepaga kengaytirib,
+     joylashuvni manfiy margin bilan saqlaymiz. */
+  padding-top: 0.24em;
+  margin-top: -0.24em;
 }
 /* Tekis rang — gradient matn harflar ichida notekislik hosil qilardi
    va foto ustida "iflos" koʻrinardi. Oltin materialni fotoning oʻzi beradi. */
@@ -850,6 +868,13 @@ html[data-stage] .nav {
 }
 .foot__links a:hover {
   color: var(--amber-lite);
+}
+.foot__area {
+  max-width: 52rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--muted);
 }
 .foot__note {
   font-size: 0.78rem;
