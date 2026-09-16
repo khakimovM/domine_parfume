@@ -12,11 +12,11 @@ import { SITE } from "./site";
  * roʻyxatga tiqilmagan.
  */
 
-export const TITLE = `${SITE.brandFull} — ${SITE.city}da atir doʻkoni | Original atirlar`;
+export const TITLE = `${SITE.brandFull} — ${SITE.city}da online atirlar doʻkoni`;
 
 /** ~155 belgi: Google undan uzogʻini kesib tashlaydi. */
 export const DESCRIPTION =
-  `${SITE.brandFull} — ${SITE.city}dagi koʻchib yuruvchi atir doʻkoni. ` +
+  `${SITE.brandFull} — ${SITE.city}dagi online atir doʻkoni. ` +
   `Original atirlar va lux analoglar. ${SITE.city} boʻylab tekin yetkazish, ` +
   `boshqa shaharlarga pochta.`;
 
@@ -125,7 +125,7 @@ export function storeJsonLd() {
     description: DESCRIPTION,
     telephone: SITE.admins.map((a) => a.tel.replace("tel:", "")),
     currenciesAccepted: "UZS",
-    // Koʻchma doʻkon — koʻcha manzili yoʻq, shuning uchun faqat shahar
+    // Online doʻkon — koʻcha manzili yoʻq, shuning uchun faqat shahar
     // koʻrsatilgan va xizmat hududi alohida berilgan.
     address: {
       "@type": "PostalAddress",

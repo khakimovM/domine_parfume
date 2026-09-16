@@ -12,7 +12,7 @@ export const SITE = {
   city: "Fargʻona",
   /** Kalit soʻzlarda apostrofsiz shakl ham kerak. */
   cityPlain: "Fargona",
-  tagline: "Koʻchib yuruvchi atirlar doʻkoni",
+  tagline: "Online atirlar doʻkoni",
 
   /** Kanonik manzil. Vercel'da NEXT_PUBLIC_SITE_URL bilan almashtiriladi. */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://domine.uz",

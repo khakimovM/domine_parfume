@@ -619,17 +619,19 @@ html[data-stage] .nav {
   object-fit: cover;
   object-position: 64% center;
   /* Faqat tepa-pastki chetlar eriydi — yon tomonlar ekran chekkasi */
-  mask-image: linear-gradient(180deg, transparent, #000 22%, #000 64%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 12%, #000 70%, transparent);
 }
 /* Matn ustidagi quyuqlashtiruvchi qatlam */
 .hero::before {
   content: "";
   z-index: -1;
+  /* Chap tomon toʻliq qora boʻlmasin — foto sezilib tursin, ammo
+     matn kontrasti saqlansin. */
   background: linear-gradient(
     92deg,
-    var(--noir) 20%,
-    color-mix(in srgb, var(--noir) 72%, transparent) 50%,
-    color-mix(in srgb, var(--noir) 14%, transparent) 84%
+    color-mix(in srgb, var(--noir) 90%, transparent) 10%,
+    color-mix(in srgb, var(--noir) 62%, transparent) 48%,
+    color-mix(in srgb, var(--noir) 10%, transparent) 85%
   );
 }
 

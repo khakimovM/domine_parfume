@@ -20,7 +20,7 @@ export default function Hero() {
 
       <div className="hero__copy">
         <h1 className="hero__title" data-split>
-          Koʻchib yuruvchi
+          Online
           <br />
           <em>atirlar doʻkoni</em>
         </h1>
